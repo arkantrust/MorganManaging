@@ -2,9 +2,7 @@ package ui;
 
 import java.util.Scanner;
 import java.util.Calendar;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
-import java.util.Hashtable;
 import model.Company;
 
 public class ConsoleUserInterface {
