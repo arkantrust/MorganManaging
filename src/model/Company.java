@@ -10,7 +10,9 @@ public class Company {
     private ArrayList<Client> clients;
     private Ship satisfaction;
     private ArrayList<Ship> ships;
+    private CargoPort portRoyal;
 
+    
     public Company(String name, String owner) {
         this.name = name;
         this.owner = owner;
@@ -18,6 +20,7 @@ public class Company {
         clients = new ArrayList<Client>();
         ships = new ArrayList<Ship>();
         ships.add(satisfaction);
+        portRoyal = new CargoPort("Port Royal", "Henry Morgan");
     }
 
     public String getName() {
@@ -49,6 +52,14 @@ public class Company {
     public void setSatisfaction(Ship newShip) {
         this.satisfaction = newShip;
     }
+    
+    public CargoPort getPortRoyal() {
+        return portRoyal;
+    }
+
+    public void setPortRoyal(CargoPort portRoyal) {
+        this.portRoyal = portRoyal;
+    }
 
     public boolean clientExists(String id) {
         boolean exists = false;
@@ -71,21 +82,51 @@ public class Company {
             message = name + " is already registered.\n";
             return message;
         }
-
+        
         Client newClient = new Client(name, id);
         
-        boolean searching = true;
-        for (int i = 0; i < clients.size() && searching; i++) {
-            if (clients.get(i) == null) {
-                clients.set(i, newClient);
-                searching = false;
-            }
-        }
+        clients.add(newClient);
         
         message = newClient.getName() + " registered succesfully.\n";            
         
         return message;
     }
+
+    public String removeClient(String name) {
+        String message = "";
+        
+        // early return saves an identation
+        if (!clientExists(name)) {
+            message = name + " is not registered.\n";
+            return message;
+        }
+        
+        int index = 0;
+        boolean searching = true;
+        
+        for (int i = 0; i < clients.size() && searching; i++) {
+            if (clients.get(i).getId().equalsIgnoreCase(name)) {
+                index = i;
+                searching = false;
+            }
+        }
+        
+        clients.remove(index);
+        
+        message = name + " removed succesfully.\n";
+        
+        return message;
+    }
+
+    public String showClients() {
+        String info = "";
+        for (Client client : clients) {
+            info += client.getName() + "/n";
+        }
+        
+        return info;
+    }
+
 
     public String shipCanSail() {
         

@@ -1,35 +1,33 @@
 package ui;
 
-import model.Company;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Scanner;
-import model.Cargo;
-import model.Ship;
-import model.Client;
-import model.CargoPort;
+import java.util.Calendar;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Hashtable;
+import model.Company;
 
 public class ConsoleUserInterface {
 
     public static Scanner in = new Scanner(System.in);
+    public static Company pirata = new Company("El Pirata", "Henry Morgan");
 
     /** Reads a date as dd-MM-yyy. e.g. 23-05-1995 as a String and formats it to Calendar type
      * @param requiredDate the name of the date required. e.g. birthdate, finish date. <b>Reccomended: Establish as "date" as default to keep coherence</b>
      * @return The date entered in Calendar type
      */
     public static Calendar readDate(String requiredDate) {
-        boolean run = true;
+        boolean running = true;
         Calendar date = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         
-        while (run) {
+        while (running) {
             System.out.print("Enter " + requiredDate + " (dd-mm-yyyy): ");
             String dateString = in.nextLine();
             
             try {
                 date.setTime(dateFormat.parse(dateString));
-                run = false;
+                running = false;
             }
             catch (Exception e) {
                 System.out.println("Invalid date format.");
@@ -45,56 +43,94 @@ public class ConsoleUserInterface {
     }
 
     public static void main(String agrs[]) {
-        
-        Company pirata = new Company("El Pirata", "Henry Morgan");
-        System.out.println(pirata.toString());
 
-        Client me = new Client("David Dulce", "A00398802");
-        System.out.println(me.toString());
-        
-        Cargo myCargo = new Cargo("jewelry", 10, 1000, 3, me);
-        System.out.println(myCargo.toString());
-        
-        Ship myShip = new Ship("satisfaction", "Hnery Morgan");
-        System.out.println(myShip.toString());
-        
-        myShip.loadCargo(myCargo);
-        CargoPort port = new CargoPort("Port Royal", "Henry Morgan");
-        System.out.println(port.toString());
-
-        // registerClients();
-        // loadShip();
-        // sailShip();
-        // searchClientByLetter();
-
-        myShip.loadCargo(myCargo);
-        
-        myCargo.setCrateWeight(20);
-
-        pirata.updateClients();
-        System.out.println(myCargo.toString());
-        System.out.println(me.toString());
-        System.out.println(myShip.toString());
-
+        boolean runApp = true;
+        while (runApp) {
+            System.out.println("Welcome to your custom software to manage cargo.");
+            displayMenu();
+            
+            try {
+                performAction();
+            } catch (Exception e) {
+                System.out.println("Not a valid command");
+            }
+            // loadShip();
+            // sailShip();
+            // searchClientByLetter();
+        }
     }
-    /* 
-    public static void registerClients() {
-        for (int i = 0; i < 5; i++) {
-            System.out.println("Register client " + (i+1) + ": ");
+
+    public static void displayMenu() {
+        System.out.println("What would you like to do?");
+        System.out.println("1. Register client");
+        System.out.println("2. Remove client");
+        System.out.println("3. View clients");
+        System.out.println("X. Register a ship");
+        System.out.println("X. Register cargo");
+        System.out.println("X. Load cargo");
+        System.out.println("X. Sail ship");
+        System.out.println("X. View ships");
+    }
+
+    public static void performAction() {
+        System.out.print("> ");
+        short selection = in.nextShort();
+        
+        switch(selection) {
+            case 0:
+                System.out.println("You sneaky bird, this is not a command. Try again");
+            case 1:
+                registerClient();
+                break;
+            case 2:
+                removeClient();
+                break;
+            case 3:
+                displayClients();
+            /* case 3:
+                // registerCargo();
+                break;
+            case 4:
+                // LoadCargo();
+                break;
+            case 5:
+                // SailShip();
+                break;
+            case 6:
+                // registerShip();            
+                break;
+            case 7:
+                // displayShips();
+                break;
+            */
+        } 
+    }
+
+
+    public static void registerClient() {
+            System.out.println("Register client: ");
             System.out.print("Name: ");
             String name = in.nextLine();
-
-            if (pirata.clientExists(name)) {
-                i--;
-            }
             
             System.out.print("Registration Number: ");
             String registrationNumber = in.nextLine();
             
             System.out.println(pirata.addClient(name, registrationNumber));
-        }
+        
     }
 
+    public static void removeClient() {
+        System.out.print("Enter name of client to remove: ");
+        String name = in.nextLine();
+ 
+        System.out.println(pirata.removeClient(name));
+    }
+
+    public static void displayClients() {
+
+    }
+    /* 
+    
     public static void loadCargo() {
         
         System.out.print("Cargo name: ");
@@ -168,5 +204,4 @@ public class ConsoleUserInterface {
         System.out.println(pirata.clientNameStartsWith(letter.charAt(0)));
     }
     */
-    
 }
