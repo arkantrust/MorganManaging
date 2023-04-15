@@ -119,14 +119,27 @@ public class Company {
     }
 
     public String showClients() {
-        String info = "";
+        String clientsList = "";
         for (Client client : clients) {
-            info += client.getName() + "/n";
+            clientsList += client.getName() + "/n";
         }
-        
-        return info;
+        return clientsList;
     }
 
+    public String clientNameStartsWith(char letter) {
+        
+        String clientsNames = "";
+
+        for (Client client : clients) {
+            Character firstNameLetter = Character.toLowerCase(client.getName().charAt(0));
+            Character comparedLetter = Character.toLowerCase(letter);
+
+            if (client != null && firstNameLetter.equals(comparedLetter)) {
+                clientsNames += client.getName() + "\n";
+            }
+        }
+        return clientsNames;
+    }
 
     public String shipCanSail() {
         
@@ -177,22 +190,6 @@ public class Company {
         message = "All clients were updated successfully.\n";
         
         return message;
-    }
-
-    public String clientNameStartsWith(char letter) {
-        String clientsNames = "";
-        boolean searching = true;
-
-        for (int i = 0; i < clients.size() && searching; i++) {
-
-            Character firstNameLetter = Character.toUpperCase(clients.get(i).getName().charAt(0));
-            Character comparedLetter = Character.toUpperCase(letter);
-
-            if (clients.get(i) != null && firstNameLetter.equals(comparedLetter)) {
-                clientsNames += clients.get(i).toString() + "\n";
-            }
-        }
-        return clientsNames;
     }
 
     public String toString() {

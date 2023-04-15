@@ -43,14 +43,14 @@ public class ConsoleUserInterface {
     public static void main(String agrs[]) {
 
         boolean runApp = true;
+        System.out.println("Welcome to your custom software to manage cargo.\n");
         while (runApp) {
-            System.out.println("Welcome to your custom software to manage cargo.");
             displayMenu();
             
             try {
                 performAction();
             } catch (Exception e) {
-                System.out.println("Not a valid command");
+                System.out.println("Not a valid command\n");
             }
             // loadShip();
             // sailShip();
@@ -59,15 +59,21 @@ public class ConsoleUserInterface {
     }
 
     public static void displayMenu() {
+        System.out.println("____________________________________________________");
+        System.out.println("Welcome to your custom software to manage cargo.");
+        System.out.println("____________________________________________________");
         System.out.println("What would you like to do?");
         System.out.println("1. Register client");
         System.out.println("2. Remove client");
         System.out.println("3. View clients");
+        System.out.println("4. Search a client by the first letter of their name");
         System.out.println("X. Register a ship");
         System.out.println("X. Register cargo");
         System.out.println("X. Load cargo");
         System.out.println("X. Sail ship");
         System.out.println("X. View ships");
+        System.out.println("X. Exit");
+        System.out.println("____________________________________________________");
     }
 
     public static void performAction() {
@@ -85,9 +91,11 @@ public class ConsoleUserInterface {
                 break;
             case 3:
                 displayClients();
-            /* case 3:
-                // registerCargo();
-                break;
+            case 4:
+                searchClientByLetter();
+            break;
+            /*
+            // registerCargo();
             case 4:
                 // LoadCargo();
                 break;
@@ -104,7 +112,6 @@ public class ConsoleUserInterface {
         } 
     }
 
-
     public static void registerClient() {
             System.out.println("Register client: ");
             System.out.print("Name: ");
@@ -114,19 +121,25 @@ public class ConsoleUserInterface {
             String registrationNumber = in.nextLine();
             
             System.out.println(pirata.addClient(name, registrationNumber));
+        }
         
-    }
+        public static void removeClient() {
+            System.out.print("Enter name of client to remove: ");
+            String name = in.nextLine();
+            
+            System.out.println(pirata.removeClient(name));
+        }
+        
+        public static void displayClients() {
+            pirata.showClients();
+        }
 
-    public static void removeClient() {
-        System.out.print("Enter name of client to remove: ");
-        String name = in.nextLine();
- 
-        System.out.println(pirata.removeClient(name));
-    }
-
-    public static void displayClients() {
-
-    }
+        public static void searchClientByLetter() {
+            System.out.println("Type a letter to search: ");
+            char letter = in.nextLine().charAt(0);
+            System.out.println("Clients whose names start with " + letter + ": ");
+            System.out.println(pirata.clientNameStartsWith(letter));
+        }
     /* 
     
     public static void loadCargo() {
@@ -195,11 +208,5 @@ public class ConsoleUserInterface {
         }
     }
 
-    public static void searchClientByLetter() {
-        System.out.println("Type a letter to search: ");
-        String letter = in.nextLine();
-        System.out.println("Clients whose names start with " + letter.charAt(0) + ": ");
-        System.out.println(pirata.clientNameStartsWith(letter.charAt(0)));
-    }
     */
 }
